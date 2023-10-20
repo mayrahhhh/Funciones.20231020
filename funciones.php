@@ -1,23 +1,29 @@
 <?php
-//es lo que aparecera en el navegador mediante el include
-//echo "hola";
 
-function consulta() {//nombre de la consulta de un usuario
-    $salida = ""; // Inicia la variable
-    $conexion = mysqli_connect("localhost", "root", "root", "repaso_funciones"); // Conexión a la base de datos
-    $sql = "SELECT * FROM usuarios"; // Consulta MYSQL
+/**
+ * esta funcion es para consultar a las personas con el id y su contraseña
+ * @return texto muestra los datos de los usuarios
+ * 
+ * @param numero muestra los documento mediante el id
+ * 
+ * @param numero valida la contraseña
+ */
 
-    $resultado = $conexion->query($sql); // Ejecuta la consulta
-
-    while ($fila = mysqli_fetch_assoc($resultado)) { 
-      
-            $salida .= $fila['id_usuario'];//ID de la colmna de la base de datos
-            $salida .= $fila['nombre'];//nombre de la colmna de la base de datos
-            $salida .= $fila['sitio'];//nombre del sitio de la colmna de la base de datos
-            $salida .= $fila['invitacion'];//invitacion de la colmna de la base de datos
-        
+function consultar($id_usuario=null, $contraseña=null){
+    $salida="";//inicia la variable
+    $conexion = mysqli_connect("localhost", "root", "root", "repaso_funciones");//conexion de la base de datos
+    $sql="SELECT * from usuarios "; //llama la tabla de la base de datos
+   
+    if($id_usuario!=null and $contraseña!=null)  $sql.="WHERE id_usuario ='$id_usuario'and contraseña='$contraseña'";//cuando el documento y la contraseña son nulas
+    $resultado=$conexion->query($sql); //ejecuta una consulta
+    while($fila = mysqli_fetch_assoc($resultado)) //recorre el resultado del SQL
+    {
+        $salida .=$fila['id_usuario']."  ";  //almacena una informacion de la base de datos 
+        $salida .=$fila['nombre']."  "; //almacena una informacion de la base de datos 
+        $salida .=$fila['contraseña']."  "; //almacena una informacion de la base de datos 
     }
-    
 
-    return $salida; // Retorna el resultado //datos de un usuario llamado de la base de datos
+    return $salida;//retorna la salida, los datos requeridos de la base de datos
+    $conexion= close();//cierre de la conexion
+
 }

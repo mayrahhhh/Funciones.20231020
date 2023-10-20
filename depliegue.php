@@ -4,4 +4,5 @@
 
 include("funciones.php");
 
-echo consulta();
+
+echo consultar("2", '333' );
